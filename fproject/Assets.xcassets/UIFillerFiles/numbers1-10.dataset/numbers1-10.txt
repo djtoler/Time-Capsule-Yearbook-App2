@@ -1,0 +1,10 @@
+Plants: 4
+Plants: 1
+Plants: 7
+Plants: 8
+Plants: 10
+Plants: 9
+Plants: 2
+Plants: 3
+Plants: 5
+Plants: 6

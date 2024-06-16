@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "price.txt",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
