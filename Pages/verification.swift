@@ -121,6 +121,7 @@
 
 import SwiftUI
 
+
 struct Verification: View {
     @StateObject private var loggedInUser = LoggedInUser.shared
     

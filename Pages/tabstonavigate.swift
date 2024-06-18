@@ -18,11 +18,13 @@
 
 import SwiftUI
 
+
+
 struct TabView2: View {
     @State private var user: User = User.load() ?? User.default
     var body: some View {
         TabView {
-            headshots()
+            Headshots()
                 .tabItem {
                     Label("Yearbook", systemImage: "book")
                 }
