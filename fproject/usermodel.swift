@@ -52,7 +52,7 @@ struct Comment: Codable, Identifiable, Hashable {
     var profilePicture: String
 }
 
-struct User: Codable, Identifiable {
+struct User: Codable, Identifiable, Hashable {
     var id: String { email }
     var email: String
     var firstName: String

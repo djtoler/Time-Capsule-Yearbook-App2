@@ -25,7 +25,11 @@ struct sup: View {
                 .ignoresSafeArea()
             ScrollView {
                 VStack {
-                    Image("Class")
+                    Image("CLASS1")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 200)
+                        .padding(.top, 20)
                     Text("SUPERLATIVES")
                         .font(.custom("varsity", size: 35, relativeTo: .title))
                         .foregroundStyle(.blue)

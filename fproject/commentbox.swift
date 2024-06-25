@@ -12,7 +12,7 @@ struct commentbox: View {
                    // Color.white // Set the background color to white
 
                     TextField("", text: $commentText)
-                        .font(.custom("winter wind", size: 28))
+//                        .font(.custom("winter wind", size: 28))
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .frame(width: 343, height: 106)

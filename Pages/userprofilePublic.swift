@@ -595,6 +595,7 @@ struct UserProfileViewAlt: View {
     @State private var image04: UIImage?
     @State private var image05: UIImage?
     @State private var image06: UIImage?
+    @State private var profileImage: UIImage?
     @State private var imagePickerShowing = false
     @State private var activeImageSelection: Int?
     @State private var showWebView = false
@@ -605,6 +606,7 @@ struct UserProfileViewAlt: View {
     @State private var newGitHubLink = ""
     @State private var showPopup = false
     @State private var popupMessage = ""
+    @State private var imageUpdated = Array(repeating: false, count: 7)
 
     @State var user: User // Make user a mutable state variable
 
@@ -807,7 +809,7 @@ struct UserProfileViewAlt: View {
         }
         .background(Color.black)
         .sheet(isPresented: $imagePickerShowing) {
-            ImagePicker(selectedImage: self.$activeImageSelection, images: [1: $image01, 2: $image02, 3: $image03, 4: $image04, 5: $image05, 6: $image06])
+            ImagePicker(selectedImage: self.$activeImageSelection, images: [0: $profileImage, 1: $image01, 2: $image02, 3: $image03, 4: $image04, 5: $image05, 6: $image06], imageUpdated: $imageUpdated)
         }
         .sheet(isPresented: $showWebView) {
             if let urlToOpen = urlToOpen {
@@ -916,3 +918,5 @@ struct UserProfileView_PreviewsAlt: PreviewProvider {
         UserProfileViewAlt(user: User.default)
     }
 }
+
+

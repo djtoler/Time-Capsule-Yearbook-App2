@@ -28,7 +28,7 @@ struct LoginForm: View {
             }
             .padding()
             .buttonStyle(.plain) // Use a plain style as a base
-            .background(Color.black) // Set the background color to black
+            .background(Color.red) // Set the background color to black
             .foregroundColor(.white) // Set the text color to white
             .frame(minWidth: 100, maxWidth: .infinity) // Set a minimum width for the button and allow it to expand
             .padding() // Add padding inside the button to increase its size
@@ -40,7 +40,7 @@ struct LoginForm: View {
                     .foregroundColor(.red)
             }
         }
-        .navigationTitle("LOGIN")
+        .navigationTitle("")
         .background(Image("logo").resizable().scaledToFill().edgesIgnoringSafeArea(.all))
     }
     
