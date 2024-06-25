@@ -24,7 +24,7 @@ struct ContentView: View {
         .onAppear {
             if let loadedUser = User.load() {
                 print("User loaded on view appearance: \(loadedUser.email)")
-                print("User image loaded on view appearance: \(loadedUser.profilePicture)")
+                print("User image loaded on view appearance: \(String(describing: loadedUser.profilePicture))")
                 loggedInUser.loggedInUserData = loadedUser
             } else {
                 print("No user data found in UserDefaults on view appearance.")

@@ -667,7 +667,6 @@
 
 
 
-
 import SwiftUI
 
 struct SearchView: View {
@@ -808,3 +807,4 @@ struct SearchView_Previews: PreviewProvider {
         SearchView()
     }
 }
+//
