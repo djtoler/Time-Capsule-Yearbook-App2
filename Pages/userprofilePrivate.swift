@@ -50,161 +50,79 @@ struct UserProfileView: View {
     
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("\(user.firstName) \(user.lastName)")
-                            .font(.custom("caviarDreams", size: 35))
-                            .fontWeight(.semibold)
-                            .font(.system(size: 32))
-                            .foregroundColor(.white)
-                        
-                        Text("\(user.specialty)")
-                            .font(.custom("caviarDreams", size: 20))
-                            .fontWeight(.semibold)
-                            .foregroundColor(.white)
-                        HStack {
-                            VStack {
-                                Spacer()
-                                Text("MEMORIES")
-                                    .font(.custom("varsity", size: 45))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.bay)
-                                Rectangle()
-                                    .frame(height: 5)
-                                    .foregroundColor(.white)
-                                    .offset(y: -25)
-                                Spacer()
-                            }
-                        }
-                    }
-                    
-                    Spacer()
-                    VStack {
-                        ZStack {
-                            if let image = profileImage {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 81, height: 79)
-                                    .clipShape(Circle())
-                                    .clipped()
-                            } else if let urlString = user.profilePicture, let url = URL(string: urlString) {
-                                AsyncImage(url: url) { phase in
-                                    switch phase {
-                                    case .success(let image):
-                                        image.resizable()
-                                             .aspectRatio(contentMode: .fill)
-                                             .frame(width: 81, height: 79)
-                                             .clipShape(Circle())
-                                             .clipped()
-                                    case .failure(_):
-                                        Circle()
-                                            .fill(Color.gray)
-                                            .frame(width: 81, height: 79)
-                                    case .empty:
-                                        Circle()
-                                            .fill(Color.gray)
-                                            .frame(width: 81, height: 79)
-                                    @unknown default:
-                                        EmptyView()
-                                    }
-                                }
-                            } else {
-                                Image("addimage")
-                                    .resizable()
-                                    .frame(width: 81, height: 79)
-                                    .background(Color.gray)
-                                    .clipShape(Circle())
-                                    .clipped()
-                            }
-                            Circle()
-                                .fill(Color.black.opacity(0.5))
-                                .frame(width: 25, height: 25)
-                                .overlay(
-                                    Image(systemName: "plus.circle.fill")
-                                        .foregroundColor(Color(hex: "#24D1B7"))
-                                        .frame(width: 25, height: 25)
-                                )
-                                .offset(x: 25, y: 25)
-                                .onTapGesture {
-                                    self.activeImageSelection = 0
-                                    self.imagePickerShowing = true
-                                }
-                        }
-                        if profileImage != nil && !isSubmitting[0] && imageUpdated[0] {
-                            Button("Submit") {
-                                isSubmitting[0] = true
-                                uploadImage(image: profileImage, imageNumber: 0, email: user.email, firstName: user.firstName, lastName: user.lastName)
-                            }
-                            .background(Color(hex: "#24D1B7"))
-                            .cornerRadius(5)
-                            .padding(5)
-                            .foregroundColor(Color.black)
-                        
-                        }
-                    }
-                }
-                .padding()
-                
-                VStack {
+        ZStack{
+            Image("BG3")
+                .resizable()
+                .ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading) {
                     HStack {
+                        VStack(alignment: .leading) {
+                            Text("\(user.firstName) \(user.lastName)")
+                                .font(.custom("caviarDreams", size: 35))
+                                .fontWeight(.semibold)
+                                .font(.system(size: 32))
+                                .foregroundColor(.white)
+                            
+                            Text("\(user.specialty)")
+                                .font(.custom("caviarDreams", size: 20))
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                            HStack {
+                                VStack {
+                                    Spacer()
+                                    Text("MEMORIES")
+                                        .font(.custom("varsity", size: 45))
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.bay)
+                                    Rectangle()
+                                        .frame(height: 5)
+                                        .foregroundColor(.white)
+                                        .offset(y: -25)
+                                    Spacer()
+                                }
+                            }
+                        }
+                        
                         Spacer()
                         VStack {
                             ZStack {
-                                if let image = image01 {
+                                if let image = profileImage {
                                     Image(uiImage: image)
                                         .resizable()
-                                        .frame(width: 162, height: 314)
-                                        .background(Color.black)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
-                                        )
-                                } else if let urlString = user.image01, let url = URL(string: urlString) {
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 81, height: 79)
+                                        .clipShape(Circle())
+                                        .clipped()
+                                } else if let urlString = user.profilePicture, let url = URL(string: urlString) {
                                     AsyncImage(url: url) { phase in
                                         switch phase {
                                         case .success(let image):
                                             image.resizable()
-                                                .frame(width: 162, height: 314)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
+                                                 .aspectRatio(contentMode: .fill)
+                                                 .frame(width: 81, height: 79)
+                                                 .clipShape(Circle())
+                                                 .clipped()
                                         case .failure(_):
-                                            Image("addimage")
-                                                .resizable()
-                                                .frame(width: 162, height: 314)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
+                                            Circle()
+                                                .fill(Color.gray)
+                                                .frame(width: 81, height: 79)
                                         case .empty:
-                                            Image("addimage")
-                                                .resizable()
-                                                .frame(width: 162, height: 314)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
+                                            Circle()
+                                                .fill(Color.gray)
+                                                .frame(width: 81, height: 79)
                                         @unknown default:
                                             EmptyView()
                                         }
                                     }
                                 } else {
-                                    Image("addimage")
+                                    Image("defaultprofile")
                                         .resizable()
-                                        .frame(width: 162, height: 314)
-                                        .background(Color.black)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
-                                        )
+                                        .frame(width: 81, height: 79)
+                                        .background(Color.gray)
+                                        .clipShape(Circle())
+                                        .clipped()
                                 }
                                 Circle()
                                     .fill(Color.black.opacity(0.5))
@@ -214,578 +132,666 @@ struct UserProfileView: View {
                                             .foregroundColor(Color(hex: "#24D1B7"))
                                             .frame(width: 25, height: 25)
                                     )
-                                    .offset(x: 70, y: 140) // Adjust the offset to position at bottom right
+                                    .offset(x: 25, y: 25)
                                     .onTapGesture {
-                                        self.activeImageSelection = 1
+                                        self.activeImageSelection = 0
                                         self.imagePickerShowing = true
                                     }
                             }
-                            if image01 != nil && !isSubmitting[1] && imageUpdated[1] {
+                            if profileImage != nil && !isSubmitting[0] && imageUpdated[0] {
                                 Button("Submit") {
-                                    isSubmitting[1] = true
-                                    uploadImage(image: image01, imageNumber: 1, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                    isSubmitting[0] = true
+                                    uploadImage(image: profileImage, imageNumber: 0, email: user.email, firstName: user.firstName, lastName: user.lastName)
                                 }
-                                .background(Color.white)
+                                .background(Color(hex: "#24D1B7"))
                                 .cornerRadius(5)
                                 .padding(5)
+                                .foregroundColor(Color.black)
+                            
                             }
                         }
-                        VStack {
-                            ZStack {
-                                if let image = image02 {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .frame(width: 198, height: 174)
-                                        .background(Color.black)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
-                                        )
-                                        .offset(y: -68)
-                                } else if let urlString = user.image02, let url = URL(string: urlString) {
-                                    AsyncImage(url: url) { phase in
-                                        switch phase {
-                                        case .success(let image):
-                                            image.resizable()
-                                                .frame(width: 198, height: 174)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                                .offset(y: -68)
-                                        case .failure(_):
-                                            Image("addimage12")
-                                                .resizable()
-                                                .frame(width: 198, height: 174)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                                .offset(y: -68)
-                                        case .empty:
-                                            Image("addimage12")
-                                                .resizable()
-                                                .frame(width: 198, height: 174)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                                .offset(y: -68)
-                                        @unknown default:
-                                            EmptyView()
+                    }
+                    .padding()
+                    
+                    VStack {
+                        HStack {
+                            Spacer()
+                            VStack {
+                                ZStack {
+                                    if let image = image01 {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .frame(width: 162, height: 314)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
+                                            )
+                                    } else if let urlString = user.image01, let url = URL(string: urlString) {
+                                        AsyncImage(url: url) { phase in
+                                            switch phase {
+                                            case .success(let image):
+                                                image.resizable()
+                                                    .frame(width: 162, height: 314)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                            case .failure(_):
+                                                Image("addimage")
+                                                    .resizable()
+                                                    .frame(width: 162, height: 314)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                            case .empty:
+                                                Image("addimage")
+                                                    .resizable()
+                                                    .frame(width: 162, height: 314)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                            @unknown default:
+                                                EmptyView()
+                                            }
                                         }
+                                    } else {
+                                        Image("addimage")
+                                            .resizable()
+                                            .frame(width: 162, height: 314)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
+                                            )
                                     }
-                                    .onTapGesture {
-                                        self.activeImageSelection = 2
-                                        self.imagePickerShowing = true
-                                    }
-                                } else {
-                                    Image("addimage12")
-                                        .resizable()
-                                        .frame(width: 198, height: 174)
-                                        .background(Color.black)
+                                    Circle()
+                                        .fill(Color.black.opacity(0.5))
+                                        .frame(width: 25, height: 25)
                                         .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
+                                            Image(systemName: "plus.circle.fill")
+                                                .foregroundColor(Color(hex: "#24D1B7"))
+                                                .frame(width: 25, height: 25)
                                         )
-                                        .offset(y: -68)
+                                        .offset(x: 70, y: 140) // Adjust the offset to position at bottom right
+                                        .onTapGesture {
+                                            self.activeImageSelection = 1
+                                            self.imagePickerShowing = true
+                                        }
+                                }
+                                if image01 != nil && !isSubmitting[1] && imageUpdated[1] {
+                                    Button("Submit") {
+                                        isSubmitting[1] = true
+                                        uploadImage(image: image01, imageNumber: 1, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                    }
+                                    .background(Color.white)
+                                    .cornerRadius(5)
+                                    .padding(5)
+                                }
+                            }
+                            VStack {
+                                ZStack {
+                                    if let image = image02 {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .frame(width: 198, height: 174)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
+                                            )
+                                            .offset(y: -68)
+                                    } else if let urlString = user.image02, let url = URL(string: urlString) {
+                                        AsyncImage(url: url) { phase in
+                                            switch phase {
+                                            case .success(let image):
+                                                image.resizable()
+                                                    .frame(width: 198, height: 174)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -68)
+                                            case .failure(_):
+                                                Image("addimage12")
+                                                    .resizable()
+                                                    .frame(width: 198, height: 174)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -68)
+                                            case .empty:
+                                                Image("addimage12")
+                                                    .resizable()
+                                                    .frame(width: 198, height: 174)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -68)
+                                            @unknown default:
+                                                EmptyView()
+                                            }
+                                        }
                                         .onTapGesture {
                                             self.activeImageSelection = 2
                                             self.imagePickerShowing = true
                                         }
-                                }
-                                Circle()
-                                    .fill(Color.gray.opacity(1))
-                                    .frame(width: 25, height: 20)
-                                    .overlay(
-                                        Image(systemName: "plus.circle.fill")
-                                            .foregroundColor(Color(hex: "#24D1B7"))
-                                            .frame(width: 25, height: 25)
-                                        
-                                    )
-                                    .offset(x: 85, y: -20)
-                                    .onTapGesture {
-                                        self.activeImageSelection = 1
-                                        self.imagePickerShowing = true
+                                    } else {
+                                        Image("addimage12")
+                                            .resizable()
+                                            .frame(width: 198, height: 174)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
+                                            )
+                                            .offset(y: -68)
+                                            .onTapGesture {
+                                                self.activeImageSelection = 2
+                                                self.imagePickerShowing = true
+                                            }
                                     }
-                                if image02 != nil && !isSubmitting[2] && imageUpdated[2] {
-                                    Button("Submit") {
-                                        isSubmitting[2] = true
-                                        uploadImage(image: image02, imageNumber: 2, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                    Circle()
+                                        .fill(Color.gray.opacity(1))
+                                        .frame(width: 25, height: 20)
+                                        .overlay(
+                                            Image(systemName: "plus.circle.fill")
+                                                .foregroundColor(Color(hex: "#24D1B7"))
+                                                .frame(width: 25, height: 25)
+                                            
+                                        )
+                                        .offset(x: 85, y: -20)
+                                        .onTapGesture {
+                                            self.activeImageSelection = 1
+                                            self.imagePickerShowing = true
+                                        }
+                                    if image02 != nil && !isSubmitting[2] && imageUpdated[2] {
+                                        Button("Submit") {
+                                            isSubmitting[2] = true
+                                            uploadImage(image: image02, imageNumber: 2, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                        }
+                                        .background(Color.white)
+                                        .cornerRadius(5)
+                                        .padding(5)
                                     }
-                                    .background(Color.white)
-                                    .cornerRadius(5)
-                                    .padding(5)
                                 }
                             }
+                            Spacer()
                         }
-                        Spacer()
-                    }
-                    HStack {
-                        Spacer()
-                        VStack {
-                            ZStack {
-                                if let image = image03 {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .frame(width: 162, height: 267)
-                                        .background(Color.black)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
-                                        )
-                                } else if let urlString = user.image03, let url = URL(string: urlString) {
-                                    AsyncImage(url: url) { phase in
-                                        switch phase {
-                                        case .success(let image):
-                                            image.resizable()
-                                                .frame(width: 162, height: 267)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                        case .failure(_):
-                                            Image("addimage4")
-                                                .resizable()
-                                                .frame(width: 162, height: 267)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                        case .empty:
-                                            Image("addimage4")
-                                                .resizable()
-                                                .frame(width: 162, height: 267)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                        @unknown default:
-                                            EmptyView()
+                        HStack {
+                            Spacer()
+                            VStack {
+                                ZStack {
+                                    if let image = image03 {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .frame(width: 162, height: 267)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
+                                            )
+                                    } else if let urlString = user.image03, let url = URL(string: urlString) {
+                                        AsyncImage(url: url) { phase in
+                                            switch phase {
+                                            case .success(let image):
+                                                image.resizable()
+                                                    .frame(width: 162, height: 267)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                            case .failure(_):
+                                                Image("addimage4")
+                                                    .resizable()
+                                                    .frame(width: 162, height: 267)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                            case .empty:
+                                                Image("addimage4")
+                                                    .resizable()
+                                                    .frame(width: 162, height: 267)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                            @unknown default:
+                                                EmptyView()
+                                            }
                                         }
-                                    }
-                                    .onTapGesture {
-                                        self.activeImageSelection = 3
-                                        self.imagePickerShowing = true
-                                    }
-                                } else {
-                                    Image("addimage4")
-                                        .resizable()
-                                        .frame(width: 162, height: 267)
-                                        .background(Color.black)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
-                                        )
                                         .onTapGesture {
                                             self.activeImageSelection = 3
                                             self.imagePickerShowing = true
                                         }
-                                }
-                                Circle()
-                                    .fill(Color.black.opacity(0.5))
-                                    .frame(width: 25, height: 25)
-                                    .overlay(
-                                        Image(systemName: "plus.circle.fill")
-                                            .foregroundColor(Color(hex: "#24D1B7"))
-                                            .frame(width: 25, height: 25)
-                                    )
-                                    .offset(x: 70, y: 90)
-                                    .onTapGesture {
-                                        self.activeImageSelection = 3
-                                        self.imagePickerShowing = true
+                                    } else {
+                                        Image("addimage4")
+                                            .resizable()
+                                            .frame(width: 162, height: 267)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
+                                            )
+                                            .onTapGesture {
+                                                self.activeImageSelection = 3
+                                                self.imagePickerShowing = true
+                                            }
                                     }
-                                if image03 != nil && !isSubmitting[3] && imageUpdated[3] {
-                                    Button("Submit") {
-                                        isSubmitting[3] = true
-                                        uploadImage(image: image03, imageNumber: 3, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                    Circle()
+                                        .fill(Color.black.opacity(0.5))
+                                        .frame(width: 25, height: 25)
+                                        .overlay(
+                                            Image(systemName: "plus.circle.fill")
+                                                .foregroundColor(Color(hex: "#24D1B7"))
+                                                .frame(width: 25, height: 25)
+                                        )
+                                        .offset(x: 70, y: 90)
+                                        .onTapGesture {
+                                            self.activeImageSelection = 3
+                                            self.imagePickerShowing = true
+                                        }
+                                    if image03 != nil && !isSubmitting[3] && imageUpdated[3] {
+                                        Button("Submit") {
+                                            isSubmitting[3] = true
+                                            uploadImage(image: image03, imageNumber: 3, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                        }
+                                        .background(Color.white)
+                                        .cornerRadius(5)
+                                        .padding(5)
                                     }
-                                    .background(Color.white)
-                                    .cornerRadius(5)
-                                    .padding(5)
                                 }
                             }
-                        }
-                        VStack {
-                            ZStack {
-                                if let image = image04 {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .frame(width: 198, height: 250)
-                                        .background(Color.black)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
-                                            )
-                                        .offset(y: -176)
-                                } else if let urlString = user.image04, let url = URL(string: urlString) {
-                                    AsyncImage(url: url) { phase in
-                                        switch phase {
-                                        case .success(let image):
-                                            image.resizable()
-                                                .frame(width: 198, height: 250)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
+                            VStack {
+                                ZStack {
+                                    if let image = image04 {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .frame(width: 198, height: 250)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
                                                 )
-                                                .offset(y: -176)
-                                        case .failure(_):
-                                            Image("addimage8")
-                                                .resizable()
-                                                .frame(width: 198, height: 250)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                                .offset(y: -176)
-                                        case .empty:
-                                            Image("addimage8")
-                                                .resizable()
-                                                .frame(width: 198, height: 250)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                                .offset(y: -176)
-                                        @unknown default:
-                                            EmptyView()
-                                        }
-                                    }
-                                    .onTapGesture {
-                                        self.activeImageSelection = 4
-                                        self.imagePickerShowing = true
-                                    }
-                                } else {
-                                    Image("addimage8")
-                                        .resizable()
-                                        .frame(width: 198, height: 250)
-                                        .background(Color.black)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
-                                            )
                                             .offset(y: -176)
+                                    } else if let urlString = user.image04, let url = URL(string: urlString) {
+                                        AsyncImage(url: url) { phase in
+                                            switch phase {
+                                            case .success(let image):
+                                                image.resizable()
+                                                    .frame(width: 198, height: 250)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -176)
+                                            case .failure(_):
+                                                Image("addimage8")
+                                                    .resizable()
+                                                    .frame(width: 198, height: 250)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -176)
+                                            case .empty:
+                                                Image("addimage8")
+                                                    .resizable()
+                                                    .frame(width: 198, height: 250)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -176)
+                                            @unknown default:
+                                                EmptyView()
+                                            }
+                                        }
                                         .onTapGesture {
                                             self.activeImageSelection = 4
                                             self.imagePickerShowing = true
                                         }
-                                }
-                                Circle()
-                                    .fill(Color.black.opacity(0.5))
-                                    .frame(width: 25, height: 25)
-                                    .overlay(
-                                        Image(systemName: "plus.circle.fill")
-                                            .foregroundColor(Color(hex: "#24D1B7"))
-                                            .frame(width: 25, height: 25)
-                                    )
-                                    .offset(x: 85, y: -70)
-                                    .onTapGesture {
-                                        self.activeImageSelection = 4
-                                        self.imagePickerShowing = true
+                                    } else {
+                                        Image("addimage8")
+                                            .resizable()
+                                            .frame(width: 198, height: 250)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
+                                                )
+                                                .offset(y: -176)
+                                            .onTapGesture {
+                                                self.activeImageSelection = 4
+                                                self.imagePickerShowing = true
+                                            }
                                     }
-                                if image04 != nil && !isSubmitting[4] && imageUpdated[4] {
-                                    Button("Submit") {
-                                        isSubmitting[4] = true
-                                        uploadImage(image: image04, imageNumber: 4, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                    Circle()
+                                        .fill(Color.black.opacity(0.5))
+                                        .frame(width: 25, height: 25)
+                                        .overlay(
+                                            Image(systemName: "plus.circle.fill")
+                                                .foregroundColor(Color(hex: "#24D1B7"))
+                                                .frame(width: 25, height: 25)
+                                        )
+                                        .offset(x: 85, y: -70)
+                                        .onTapGesture {
+                                            self.activeImageSelection = 4
+                                            self.imagePickerShowing = true
+                                        }
+                                    if image04 != nil && !isSubmitting[4] && imageUpdated[4] {
+                                        Button("Submit") {
+                                            isSubmitting[4] = true
+                                            uploadImage(image: image04, imageNumber: 4, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                        }
+                                        .background(Color.white)
+                                        .cornerRadius(5)
+                                        .padding(5)
                                     }
-                                    .background(Color.white)
-                                    .cornerRadius(5)
-                                    .padding(5)
                                 }
                             }
+                            Spacer()
                         }
-                        Spacer()
-                    }
-                    HStack {
-                        VStack {
-                            ZStack {
-                                if let image = image05 {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .frame(width: 162, height: 193)
-                                        .background(Color.black)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
-                                            )
-                                        .offset(y: -107)
-                                } else if let urlString = user.image05, let url = URL(string: urlString) {
-                                    AsyncImage(url: url) { phase in
-                                        switch phase {
-                                        case .success(let image):
-                                            image.resizable()
-                                                .frame(width: 162, height: 193)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
+                        HStack {
+                            VStack {
+                                ZStack {
+                                    if let image = image05 {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .frame(width: 162, height: 193)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
                                                 )
-                                                .offset(y: -107)
-                                        case .failure(_):
-                                            Image("addimage2")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 162, height: 193)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                                .offset(y: -107)
-                                        case .empty:
-                                            Image("addimage2")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 162, height: 193)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                                .offset(y: -107)
-                                        @unknown default:
-                                            EmptyView()
-                                        }
-                                    }
-                                    .onTapGesture {
-                                        self.activeImageSelection = 5
-                                        self.imagePickerShowing = true
-                                    }
-                                } else {
-                                    Image("addimage2")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 162, height: 193)
-                                        .background(Color.black)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
-                                            )
                                             .offset(y: -107)
+                                    } else if let urlString = user.image05, let url = URL(string: urlString) {
+                                        AsyncImage(url: url) { phase in
+                                            switch phase {
+                                            case .success(let image):
+                                                image.resizable()
+                                                    .frame(width: 162, height: 193)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -107)
+                                            case .failure(_):
+                                                Image("addimage2")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 162, height: 193)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -107)
+                                            case .empty:
+                                                Image("addimage2")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 162, height: 193)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -107)
+                                            @unknown default:
+                                                EmptyView()
+                                            }
+                                        }
                                         .onTapGesture {
                                             self.activeImageSelection = 5
                                             self.imagePickerShowing = true
                                         }
-                                }
-                                Circle()
-                                    .fill(Color.black.opacity(0.5))
-                                    .frame(width: 25, height: 25)
-                                    .overlay(
-                                        Image(systemName: "plus.circle.fill")
-                                            .foregroundColor(Color(hex: "#24D1B7"))
-                                            .frame(width: 25, height: 25)
-                                    )
-                                    .offset(x: 65, y: -35)
-                                    .onTapGesture {
-                                        self.activeImageSelection = 5
-                                        self.imagePickerShowing = true
+                                    } else {
+                                        Image("addimage2")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 162, height: 193)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
+                                                )
+                                                .offset(y: -107)
+                                            .onTapGesture {
+                                                self.activeImageSelection = 5
+                                                self.imagePickerShowing = true
+                                            }
                                     }
-                                if image05 != nil && !isSubmitting[5] && imageUpdated[5] {
-                                    Button("Submit") {
-                                        isSubmitting[5] = true
-                                        uploadImage(image: image05, imageNumber: 5, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                    Circle()
+                                        .fill(Color.black.opacity(0.5))
+                                        .frame(width: 25, height: 25)
+                                        .overlay(
+                                            Image(systemName: "plus.circle.fill")
+                                                .foregroundColor(Color(hex: "#24D1B7"))
+                                                .frame(width: 25, height: 25)
+                                        )
+                                        .offset(x: 65, y: -35)
+                                        .onTapGesture {
+                                            self.activeImageSelection = 5
+                                            self.imagePickerShowing = true
+                                        }
+                                    if image05 != nil && !isSubmitting[5] && imageUpdated[5] {
+                                        Button("Submit") {
+                                            isSubmitting[5] = true
+                                            uploadImage(image: image05, imageNumber: 5, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                        }
+                                        .background(Color.white)
+                                        .cornerRadius(5)
+                                        .padding(5)
                                     }
-                                    .background(Color.white)
-                                    .cornerRadius(5)
-                                    .padding(5)
                                 }
                             }
-                        }
-                        VStack {
-                            ZStack {
-                                if let image = image06 {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 198, height: 345)
-                                        .background(Color.black)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
-                                            )
-                                            .offset(y: -183)
-                                } else if let urlString = user.image06, let url = URL(string: urlString) {
-                                    AsyncImage(url: url) { phase in
-                                        switch phase {
-                                        case .success(let image):
-                                            image.resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 198, height: 345)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
+                            VStack {
+                                ZStack {
+                                    if let image = image06 {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 198, height: 345)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
                                                 )
                                                 .offset(y: -183)
-                                        case .failure(_):
-                                            Image("addimage")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 198, height: 345)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                                .offset(y: -183)
-                                        case .empty:
-                                            Image("addimage")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 198, height: 345)
-                                                .background(Color.black)
-                                                .overlay(
-                                                    Rectangle()
-                                                        .stroke(Color.white, lineWidth: 3)
-                                                )
-                                                .offset(y: -183)
-                                        @unknown default:
-                                            EmptyView()
+                                    } else if let urlString = user.image06, let url = URL(string: urlString) {
+                                        AsyncImage(url: url) { phase in
+                                            switch phase {
+                                            case .success(let image):
+                                                image.resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 198, height: 345)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -183)
+                                            case .failure(_):
+                                                Image("addimage")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 198, height: 345)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -183)
+                                            case .empty:
+                                                Image("addimage")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 198, height: 345)
+                                                    .background(Color.black)
+                                                    .overlay(
+                                                        Rectangle()
+                                                            .stroke(Color.white, lineWidth: 3)
+                                                    )
+                                                    .offset(y: -183)
+                                            @unknown default:
+                                                EmptyView()
+                                            }
                                         }
-                                    }
-                                    .onTapGesture {
-                                        self.activeImageSelection = 6
-                                        self.imagePickerShowing = true
-                                    }
-                                } else {
-                                    Image("addimage")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 198, height: 345)
-                                        .background(Color.black)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 3)
-                                            )
-                                            .offset(y: -183)
                                         .onTapGesture {
                                             self.activeImageSelection = 6
                                             self.imagePickerShowing = true
                                         }
-                                }
-                                Circle()
-                                    .fill(Color.black.opacity(0.5))
-                                    .frame(width: 25, height: 25)
-                                    .overlay(
-                                        Image(systemName: "plus.circle.fill")
-                                            .foregroundColor(Color(hex: "#24D1B7"))
-                                            .frame(width: 25, height: 25)
-                                    )
-                                    .offset(x: 80, y: -37)
-                                    .onTapGesture {
-                                        self.activeImageSelection = 6
-                                        self.imagePickerShowing = true
+                                    } else {
+                                        Image("addimage")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 198, height: 345)
+                                            .background(Color.black)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 3)
+                                                )
+                                                .offset(y: -183)
+                                            .onTapGesture {
+                                                self.activeImageSelection = 6
+                                                self.imagePickerShowing = true
+                                            }
                                     }
-                                if image06 != nil && !isSubmitting[6] && imageUpdated[6] {
-                                    Button("Submit") {
-                                        isSubmitting[6] = true
-                                        uploadImage(image: image06, imageNumber: 6, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                    Circle()
+                                        .fill(Color.black.opacity(0.5))
+                                        .frame(width: 25, height: 25)
+                                        .overlay(
+                                            Image(systemName: "plus.circle.fill")
+                                                .foregroundColor(Color(hex: "#24D1B7"))
+                                                .frame(width: 25, height: 25)
+                                        )
+                                        .offset(x: 80, y: -37)
+                                        .onTapGesture {
+                                            self.activeImageSelection = 6
+                                            self.imagePickerShowing = true
+                                        }
+                                    if image06 != nil && !isSubmitting[6] && imageUpdated[6] {
+                                        Button("Submit") {
+                                            isSubmitting[6] = true
+                                            uploadImage(image: image06, imageNumber: 6, email: user.email, firstName: user.firstName, lastName: user.lastName)
+                                        }
+                                        .background(Color.white)
+                                        .cornerRadius(5)
+                                        .padding(5)
                                     }
-                                    .background(Color.white)
-                                    .cornerRadius(5)
-                                    .padding(5)
                                 }
                             }
                         }
+                        .padding(.bottom, -150)
                     }
-                    .padding(.bottom, -150)
-                }
-                
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("LINKS")
-                        .font(.custom("varsity", size: 45))
-                        .fontWeight(.semibold)
+                    
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("LINKS")
+                            .font(.custom("varsity", size: 45))
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .foregroundColor(.bay)
+                        Rectangle()
+                            .frame(width: 140, height: 5)
+                            .foregroundColor(.white)
+                            .offset(y: -23)
+
+                        HStack {
+                            Image(systemName: "link")
+                            Button(action: {
+                                withAnimation {
+                                    showPortfolioTextField.toggle()
+                                }
+                            }) {
+                                Text("Portfolio")
+                                    .font(.custom("Helvetica", size: 12))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.black)
+                            }
+                        }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundColor(.bay)
-                    Rectangle()
-                        .frame(width: 140, height: 5)
-                        .foregroundColor(.white)
-                        .offset(y: -23)
+                        .frame(width: 352, height: 34)
+                        .multilineTextAlignment(.center)
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .cornerRadius(4)
+                        
+                        if showPortfolioTextField {
+                            HStack {
+                                TextField("Enter your Portfolio link", text: $portfolioLink)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                Button(action: {
+                                    updateLink(linkType: "link01", link: portfolioLink)
+                                }) {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(.green)
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
 
-                    HStack {
-                        Image(systemName: "link")
-                        Button(action: {
-                            withAnimation {
-                                showPortfolioTextField.toggle()
-                            }
-                        }) {
-                            Text("Portfolio")
-                                .font(.custom("Helvetica", size: 12))
-                                .fontWeight(.semibold)
-                                .foregroundColor(.black)
-                        }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .frame(width: 352, height: 34)
-                    .multilineTextAlignment(.center)
-                    .background(Color.white)
-                    .foregroundColor(.black)
-                    .cornerRadius(4)
-                    
-                    if showPortfolioTextField {
                         HStack {
-                            TextField("Enter your Portfolio link", text: $portfolioLink)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            Image(systemName: "link")
                             Button(action: {
-                                updateLink(linkType: "link01", link: portfolioLink)
+                                withAnimation {
+                                    showGitHubTextField.toggle()
+                                }
                             }) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
+                                Text("GitHub")
+                                    .font(.custom("Helvetica", size: 12))
+                                    .fontWeight(.semibold)
                             }
                         }
-                        .padding(.horizontal)
-                    }
-
-                    HStack {
-                        Image(systemName: "link")
-                        Button(action: {
-                            withAnimation {
-                                showGitHubTextField.toggle()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(width: 352, height: 34)
+                        .multilineTextAlignment(.center)
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .cornerRadius(4)
+                        
+                        if showGitHubTextField {
+                            HStack {
+                                TextField("Enter your GitHub link", text: $gitHubLink)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                Button(action: {
+                                    updateLink(linkType: "link02", link: gitHubLink)
+                                }) {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(.green)
+                                }
                             }
-                        }) {
-                            Text("GitHub")
-                                .font(.custom("Helvetica", size: 12))
-                                .fontWeight(.semibold)
+                            .padding(.horizontal)
                         }
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .frame(width: 352, height: 34)
-                    .multilineTextAlignment(.center)
-                    .background(Color.white)
-                    .foregroundColor(.black)
-                    .cornerRadius(4)
-                    
-                    if showGitHubTextField {
-                        HStack {
-                            TextField("Enter your GitHub link", text: $gitHubLink)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            Button(action: {
-                                updateLink(linkType: "link02", link: gitHubLink)
-                            }) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
-                            }
-                        }
-                        .padding(.horizontal)
-                    }
+                    .padding(30)
+                    NotificationsView2(user: user)
+                        .background(Color.green)
+                        .frame(height: 600)
+                        .padding(.top, 20)
+                        .padding(.leading, 20)
                 }
-                .padding(30)
-                NotificationsView2(user: user)
-                    .background(Color.green)
-                    .frame(height: 600)
-                    .padding(.top, 20)
-                    .padding(.leading, 20)
             }
         }
+
         .background(Color.black)
         .sheet(isPresented: $imagePickerShowing) {
             ImagePicker(selectedImage: self.$activeImageSelection, images: [0: $profileImage, 1: $image01, 2: $image02, 3: $image03, 4: $image04, 5: $image05, 6: $image06], imageUpdated: $imageUpdated)

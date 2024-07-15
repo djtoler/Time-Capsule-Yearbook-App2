@@ -5,14 +5,14 @@ struct TabView2: View {
 
     init() {
         let appearance = UITabBarAppearance()
-        appearance.configureWithTransparentBackground()
-        appearance.backgroundColor = UIColor.gray.withAlphaComponent(0.3)
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.black
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
-        UITabBar.appearance().tintColor = .white // Set the icon color when selected to white
+        UITabBar.appearance().tintColor = .bay
         
-        UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
-        UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.bay], for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.bay], for: .selected)
     }
 
     var body: some View {
@@ -41,7 +41,6 @@ struct TabView2: View {
                     Label("Search", systemImage: "magnifyingglass")
                 }
         }
-        .foregroundStyle(.ultraThinMaterial)
     }
 }
 
@@ -50,5 +49,3 @@ struct Tab_Previews: PreviewProvider {
         TabView2()
     }
 }
-
-

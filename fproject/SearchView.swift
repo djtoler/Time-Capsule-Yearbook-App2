@@ -667,13 +667,169 @@
 
 
 
+//import SwiftUI
+//
+//struct SearchView: View {
+//    @StateObject private var viewModel = SearchViewModel()
+//    @State private var searchText: String = ""
+//    @State private var showResults = false
+//    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+//
+//    var body: some View {
+//        NavigationView {
+//            ZStack {
+//                Image("SearchBackground")
+//                    .resizable()
+//                    .scaledToFill()
+//                    .edgesIgnoringSafeArea(.all)
+//
+//                VStack {
+//                    HStack {
+//                        TextField("Search", text: $searchText)
+//                            .textFieldStyle(PlainTextFieldStyle())
+//                            .padding(10)
+//                            .background(Color.white.opacity(0.8))
+//                            .cornerRadius(10)
+//                            .padding(.leading, 20)
+//                            .overlay(
+//                                HStack {
+//                                    Spacer()
+//                                    Button(action: {
+//                                        viewModel.searchUsers(firstName: searchText, lastName: "")
+//                                        showResults = true
+//                                    }) {
+//                                        Image(systemName: "magnifyingglass")
+//                                            .foregroundColor(.gray)
+//                                            .padding()
+//                                    }
+//                                }
+//                                .padding(.trailing, 10)
+//                            )
+//                    }
+//                    .padding(.top, 60)
+//
+//                    Spacer()
+//                }
+//                .padding()
+//            }
+//            .navigationTitle("Search")
+//            .navigationBarTitleDisplayMode(.inline)
+//            .navigationBarHidden(true)
+//            .sheet(isPresented: $showResults) {
+//                ResultsView(viewModel: viewModel)
+//            }
+//        }
+//    }
+//}
+//
+//struct ResultsView: View {
+//    @ObservedObject var viewModel: SearchViewModel
+//    @Environment(\.presentationMode) var presentationMode
+//
+//    var body: some View {
+//        NavigationView {
+//            List(viewModel.searchResults) { user in
+//                NavigationLink(destination: UserProfileViewAlt(user: user)) {
+//                    HStack {
+//                        if let urlString = user.profilePicture, let url = URL(string: urlString) {
+//                            AsyncImage(url: url) { image in
+//                                image.resizable()
+//                                    .aspectRatio(contentMode: .fill)
+//                                    .frame(width: 50, height: 50)
+//                                    .clipShape(Circle())
+//                            } placeholder: {
+//                                Image(systemName: "person.crop.circle.fill")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fill)
+//                                    .frame(width: 50, height: 50)
+//                                    .foregroundColor(.gray)
+//                            }
+//                        } else {
+//                            Image(systemName: "person.crop.circle.fill")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fill)
+//                                .frame(width: 50, height: 50)
+//                                .foregroundColor(.gray)
+//                        }
+//                        
+//                        VStack(alignment: .leading) {
+//                            Text(user.firstName + " " + user.lastName)
+//                                .font(.headline)
+//                            Text(user.specialty)
+//                                .font(.subheadline)
+//                                .foregroundColor(.gray)
+//                        }
+//                        Spacer()
+//                    }
+//                    .padding()
+//                }
+//            }
+//            .navigationTitle("Results")
+//            .navigationBarItems(trailing: Button("Done") {
+//                presentationMode.wrappedValue.dismiss()
+//            })
+//        }
+//    }
+//}
+//
+//class SearchViewModel: ObservableObject {
+//    @Published var searchResults: [User] = []
+//
+//    func searchUsers(firstName: String, lastName: String) {
+//        var components = URLComponents(string: "http://54.197.82.22:8000/search")!
+//        var queryItems = [URLQueryItem]()
+//        if !firstName.isEmpty {
+//            queryItems.append(URLQueryItem(name: "firstName", value: firstName))
+//        }
+//        if !lastName.isEmpty {
+//            queryItems.append(URLQueryItem(name: "lastName", value: lastName))
+//        }
+//        components.queryItems = queryItems
+//
+//        guard let url = components.url else { return }
+//
+//        let request = URLRequest(url: url)
+//
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            if let data = data {
+//                if let users = try? JSONDecoder().decode([User].self, from: data) {
+//                    DispatchQueue.main.async {
+//                        self.searchResults = users
+//                    }
+//                }
+//            }
+//        }.resume()
+//    }
+//}
+//
+//struct SearchView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SearchView()
+//    }
+//}
+////
+
+
+
+
+
+
+
+
+
+
+
+
+
 import SwiftUI
+import Combine
 
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
     @State private var searchText: String = ""
     @State private var showResults = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    private let debounceInterval = 0.5
 
     var body: some View {
         NavigationView {
@@ -684,13 +840,17 @@ struct SearchView: View {
                     .edgesIgnoringSafeArea(.all)
 
                 VStack {
+                    Spacer()
                     HStack {
                         TextField("Search", text: $searchText)
                             .textFieldStyle(PlainTextFieldStyle())
                             .padding(10)
                             .background(Color.white.opacity(0.8))
                             .cornerRadius(10)
-                            .padding(.leading, 20)
+                            .padding(.horizontal, 20)
+                            .onChange(of: searchText) { newValue in
+                                viewModel.debouncedSearch(firstName: newValue)
+                            }
                             .overlay(
                                 HStack {
                                     Spacer()
@@ -706,7 +866,7 @@ struct SearchView: View {
                                 .padding(.trailing, 10)
                             )
                     }
-                    .padding(.top, 60)
+                    .padding(.top, -150)
 
                     Spacer()
                 }
@@ -774,7 +934,9 @@ struct ResultsView: View {
 
 class SearchViewModel: ObservableObject {
     @Published var searchResults: [User] = []
-
+    private var searchCancellable: AnyCancellable?
+    private var debounceTimer: Timer?
+    
     func searchUsers(firstName: String, lastName: String) {
         var components = URLComponents(string: "http://54.197.82.22:8000/search")!
         var queryItems = [URLQueryItem]()
@@ -800,6 +962,13 @@ class SearchViewModel: ObservableObject {
             }
         }.resume()
     }
+    
+    func debouncedSearch(firstName: String) {
+        debounceTimer?.invalidate()
+        debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+            self.searchUsers(firstName: firstName, lastName: "")
+        }
+    }
 }
 
 struct SearchView_Previews: PreviewProvider {
@@ -807,4 +976,3 @@ struct SearchView_Previews: PreviewProvider {
         SearchView()
     }
 }
-//

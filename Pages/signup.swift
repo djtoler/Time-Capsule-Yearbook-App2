@@ -37,98 +37,98 @@ struct SignUpView: View {
                     .edgesIgnoringSafeArea(.all)
                     .opacity(0.7)
 
-                VStack(spacing: 20) {
-                    Text("Time Capsule Sign Up")
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-                        .padding(.top, 50)
+                ScrollView {
+                    VStack(spacing: 20) {
+                        Text("Time Capsule Sign Up")
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                            .padding(.top, 50)
 
-                    Spacer()
+                        TextField("Email: REQUIRED", text: $email)
+                            .padding()
+                            .background(Color.white.opacity(0.5)) // Adds readability to text fields
+                            .cornerRadius(5)
+                            .padding(.horizontal, 20)
 
-                    TextField("Email: REQUIRED", text: $email)
-                        .padding()
-                        .background(Color.white.opacity(0.5)) // Adds readability to text fields
-                        .cornerRadius(5)
-                        .padding(.horizontal, 20)
+                        TextField("First Name: REQUIRED", text: $firstName)
+                            .padding()
+                            .background(Color.white.opacity(0.5))
+                            .cornerRadius(5)
+                            .padding(.horizontal, 20)
 
-                    TextField("First Name: REQUIRED", text: $firstName)
-                        .padding()
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(5)
-                        .padding(.horizontal, 20)
+                        TextField("Last Name: REQUIRED", text: $lastName)
+                            .padding()
+                            .background(Color.white.opacity(0.5))
+                            .cornerRadius(5)
+                            .padding(.horizontal, 20)
 
-                    TextField("Last Name: REQUIRED", text: $lastName)
-                        .padding()
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(5)
-                        .padding(.horizontal, 20)
-
-                    // Custom Picker using Menu
-                    Menu {
-                        ForEach(specialties, id: \.self) { specialty in
-                            Button(action: {
-                                self.specialty = specialty
-                            }) {
+                        // Custom Picker using Menu
+                        Menu {
+                            ForEach(specialties, id: \.self) { specialty in
+                                Button(action: {
+                                    self.specialty = specialty
+                                }) {
+                                    Text(specialty)
+                                }
+                            }
+                        } label: {
+                            HStack {
                                 Text(specialty)
+                                    .foregroundColor(specialty == "Select your specialty" ? .gray : .black)
+                                    .padding()
+                                Spacer()
+                                Image(systemName: "chevron.down")
+                                    .padding()
+                            }
+                            .background(Color.white.opacity(0.5))
+                            .cornerRadius(5)
+                            .padding(.horizontal, 20)
+                        }
+
+                        TextField("GitHub", text: $link1)
+                            .padding()
+                            .background(Color.white.opacity(0.5))
+                            .cornerRadius(5)
+                            .padding(.horizontal, 20)
+
+                        TextField("Portfolio", text: $link2)
+                            .padding()
+                            .background(Color.white.opacity(0.5))
+                            .cornerRadius(5)
+                            .padding(.horizontal, 20)
+
+                        SecureField("Password: REQUIRED", text: $password)
+                            .textContentType(.none)
+                            .padding()
+                            .background(Color.white.opacity(0.5))
+                            .cornerRadius(5)
+                            .padding(.horizontal, 20)
+
+                        SecureField("Confirm Password: REQUIRED", text: $confirmPassword)
+                            .textContentType(.none)
+                            .padding()
+                            .background(Color.white.opacity(0.5))
+                            .cornerRadius(5)
+                            .padding(.horizontal, 20)
+
+                        Button("Sign Up") {
+                            if password == confirmPassword {
+                                signup()
+                            } else {
+                                alertMessage = "Passwords do not match"
+                                showAlert = true
                             }
                         }
-                    } label: {
-                        HStack {
-                            Text(specialty)
-                                .foregroundColor(specialty == "Select your specialty" ? .gray : .black)
-                                .padding()
-                            Spacer()
-                            Image(systemName: "chevron.down")
-                                .padding()
+                        .buttonStyle(PrimaryButtonStyle())
+
+                        NavigationLink(destination: LoginView(), isActive: $navigationActive) {
+                            EmptyView()
                         }
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(5)
-                        .padding(.horizontal, 20)
+
+                        Spacer()
                     }
-
-                    TextField("GitHub", text: $link1)
-                        .padding()
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(5)
-                        .padding(.horizontal, 20)
-
-                    TextField("Portfolio", text: $link2)
-                        .padding()
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(5)
-                        .padding(.horizontal, 20)
-
-                    SecureField("Password: REQUIRED", text: $password)
-                        .textContentType(.none)
-                        .padding()
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(5)
-                        .padding(.horizontal, 20)
-
-                    SecureField("Confirm Password: REQUIRED", text: $confirmPassword)
-                        .textContentType(.none)
-                        .padding()
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(5)
-                        .padding(.horizontal, 20)
-
-                    Button("Sign Up") {
-                        if password == confirmPassword {
-                            signup()
-                        } else {
-                            alertMessage = "Passwords do not match"
-                            showAlert = true
-                        }
-                    }
-                    .buttonStyle(PrimaryButtonStyle())
-
-                    NavigationLink(destination: LoginView(), isActive: $navigationActive) {
-                        EmptyView()
-                    }
-
-                    Spacer()
+                    .padding()
                 }
-                .padding()
                 .alert(isPresented: $showAlert) {
                     Alert(title: Text("Sign Up Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
                 }

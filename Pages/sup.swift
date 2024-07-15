@@ -127,12 +127,15 @@ struct sup: View {
                 VStack {
                     Image("CLASS1")
                         .resizable()
-                        .scaledToFit()
-                        .frame(height: 200)
-                        .padding(.top, 20)
+                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                        .frame(width: 250, height: 550) // Set desired width and height
+                        .offset(y: -203)
+                       // .padding(.top, -155)
                     Text("SUPERLATIVES")
                         .font(.custom("varsity", size: 35, relativeTo: .title))
                         .foregroundStyle(.blue)
+                        .offset(y: -443)
+                      //.padding(.top, -225)
                     HStack {
                         VStack {
                             ForEach(0..<categoriesL.count, id: \.self) { index in
@@ -145,8 +148,7 @@ struct sup: View {
                             }
                         }
                     }
-                    Image("gridMe")
-                        .resizable()
+                    .padding(.top, -495)
                 }
             }
         }
@@ -159,13 +161,15 @@ struct CategoryView2: View {
     var body: some View {
         VStack {
             Text(category.title)
-                .font(.custom("varsity", size: 18))
+                .font(.custom("caviar dreams", size: 18))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
+                .padding(.bottom, 5) // Add some spacing between the title and the image
+                .padding(.top, 75)
             AsyncImage(url: URL(string: category.imageLink)) { image in
                 image.resizable()
                     .aspectRatio(1, contentMode: .fill)
-                    .frame(width: 200, height: 200)
+                    .frame(width: 150, height: 200)
                     .clipped()
                     .overlay(
                         Rectangle()
@@ -180,7 +184,7 @@ struct CategoryView2: View {
                     )
             }
             Text(category.name)
-                .font(.custom("varsity", size: 18))
+                .font(.custom("caviar dreams", size: 18))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
         }
